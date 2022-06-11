@@ -1,7 +1,19 @@
 import React from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import { Navbar, Container, Nav, Image } from "react-bootstrap";
+import { connect } from "react-redux";
+import { setAuthedUser } from "../actions/authedUser";
+import { useNavigate } from "react-router-dom";
 
 function NavBar(props) {
+  let navigate = useNavigate();
+
+  const handleLoggout = () => {
+    props.dispatch(setAuthedUser(null));
+    return navigate("/");
+  };
+
+  const userStyle = {};
+
   return (
     <Navbar>
       <Container>
@@ -15,11 +27,37 @@ function NavBar(props) {
         {props.authedUser && (
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              Signed in as: <a href="#login">User</a>
+              Signed in as:
+              <a
+                href="#login"
+                style={{
+                  textDecoration: "none",
+                  fontWeight: "bold",
+                  marginRight: "13px",
+                  marginLeft: "10px",
+                }}
+              >
+                <Image
+                  src={props.authedUser.avatarURL}
+                  roundedCircle={true}
+                  width="32px"
+                  height="32px"
+                />
+                {props.authedUser.name}
+              </a>
             </Navbar.Text>
-            |
+
             <Navbar.Text>
-              <a href="#login">Sign Out</a>
+              <a
+                href="#login"
+                style={{ textDecoration: "none" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleLoggout();
+                }}
+              >
+                Sign Out
+              </a>
             </Navbar.Text>
           </Navbar.Collapse>
         )}
@@ -28,4 +66,10 @@ function NavBar(props) {
   );
 }
 
-export default NavBar;
+function mapStateToProps({ authedUser }) {
+  return {
+    authedUser,
+  };
+}
+
+export default connect(mapStateToProps)(NavBar);

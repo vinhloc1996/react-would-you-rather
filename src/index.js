@@ -12,6 +12,10 @@ import authedUser from "./reducers/authedUser";
 import logger from "./middlewares/logger";
 import { loadingBarReducer } from "react-redux-loading";
 import thunk from "redux-thunk";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en.json'
+
+TimeAgo.addDefaultLocale(en)
 
 const store = configureStore({
   reducer: {

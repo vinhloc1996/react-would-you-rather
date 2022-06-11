@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import SignIn from "./SignIn";
 import { handleInitialData } from "../actions/share";
 import { getUser } from "../utils/api";
+import Dashboard from "./Dashboard";
 
 function Home(props) {
     const handleSignIn = (id) => {
@@ -17,7 +18,8 @@ function Home(props) {
       
     return (
         <div>
-            {props.authedUser === null && <SignIn SignIn={handleSignIn} users={props.users} />}
+            {props.authedUser === null && <SignIn SignIn={handleSignIn} />}
+            {props.authedUser !== null && <Dashboard />}
         </div>
     )
 }

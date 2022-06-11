@@ -10,14 +10,14 @@ export function formatDate(timestamp) {
   return time.substr(0, 5) + time.slice(-2) + " | " + d.toLocaleDateString();
 }
 
-export function formatQuestion(author, question, authedUser) {
-  const { uid, name, avatarURL } = author;
-  const { qid, optionOne, optionTwo, timestamp } = question;
+export function formatQuestion(authorUser, question, authedUser) {
+  const { name, avatarURL } = authorUser;
+  const { id, optionOne, optionTwo, timestamp, author } = question;
   const answers = optionOne.votes.concat(optionTwo.votes);
 
   return {
-    author: uid,
-    id: qid,
+    author,
+    id: id,
     timestamp,
     avatarURL,
     name,

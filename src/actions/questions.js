@@ -20,13 +20,13 @@ function answerQuestion(authedUser, id, answer) {
   };
 }
 
-export function handleAnswerQuestion(qId, answer) {
+export function handleAnswerQuestion(qId, answer, authedUserId) {
   return (dispatch, getState) => {
-    const { authedUser } = getState();
+    // const { authedUser } = getState();
     dispatch(showLoading());
-    dispatch(answerQuestion(authedUser.id, qId, answer));
+    dispatch(answerQuestion(authedUserId, qId, answer));
 
-    return saveQuestionAnswer(qId, answer, authedUser.id)
+    return saveQuestionAnswer(qId, answer, authedUserId)
       .catch((e) => {
         console.error("Error in handleAnswerQuestion: ", e);
         alert("There was an error while answering question. Try again!");
