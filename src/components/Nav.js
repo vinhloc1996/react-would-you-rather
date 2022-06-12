@@ -12,12 +12,9 @@ function NavBar(props) {
     props.dispatch(setAuthedUser(null));
   };
 
-  const userStyle = {};
-
   return (
     <Navbar>
       <Container>
-        {/* <Navbar.Brand href="#home">Navbar with text</Navbar.Brand> */}
         <Nav className="me-auto">
           <Nav.Link as={NavLink} to="/" className={(navData) => (navData.isActive ? "active" : 'none')}>Home</Nav.Link>
           <Nav.Link as={NavLink} to="/add" className={(navData) => (navData.isActive ? "active" : 'none')}>New Question</Nav.Link>
@@ -49,7 +46,7 @@ function NavBar(props) {
 
             <Navbar.Text>
               <a
-                href="#login"
+                href="#logout"
                 style={{ textDecoration: "none" }}
                 onClick={(e) => {
                   e.preventDefault();

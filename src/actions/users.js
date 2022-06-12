@@ -1,5 +1,6 @@
 import { saveUser } from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading";
+import { handleInitialData } from "./share";
 
 export const RECEIVE_USERS = "RECEIVE_USERS";
 export const ADD_USER = "ADD_USER";
@@ -11,7 +12,7 @@ export function updateUserAnswers(uId, qId, answer) {
     type: ANSWER_QUESTION_USER,
     uId,
     qId,
-    answer
+    answer,
   };
 }
 
@@ -19,7 +20,7 @@ export function updateUserQuestions(uId, qId) {
   return {
     type: ADD_QUESTION_USER,
     uId,
-    qId
+    qId,
   };
 }
 
@@ -39,9 +40,12 @@ function addUser(user) {
 
 export function handleAddUser({ id, name, avatarURL }) {
   return (dispatch) => {
-      dispatch(showLoading());
+    dispatch(showLoading());
     return saveUser({ id, name, avatarURL })
-      .then((user) => dispatch(addUser(user)))
+      .then((user) => {
+        dispatch(addUser(user));
+        dispatch(handleInitialData(user));
+      })
       .then(() => dispatch(hideLoading()));
   };
 }

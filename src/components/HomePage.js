@@ -1,17 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import SignIn from "./SignIn";
 import { handleInitialData } from "../actions/share";
+import { handleAddUser } from "../actions/users";
 import Dashboard from "./Dashboard";
 
 function Home(props) {
-  const { users, authedUser, dispatch } = props;
-
-  useEffect(() => {
-    if (authedUser === null) {
-      dispatch(handleInitialData(authedUser));
-    }
-  }, [authedUser, dispatch]);
+  const { users, authedUser } = props;
 
   const handleSignIn = (id) => {
     let user = Object.values(users).find((u) => u.id === id);
@@ -21,10 +16,14 @@ function Home(props) {
       alert("Authentication failed! Try again");
     }
   };
+  
+  const handleSignUp = (id, name, avatarURL) => {
+    props.dispatch(handleAddUser({id, name, avatarURL}));
+  };
 
   return (
     <div>
-      {authedUser === null && <SignIn SignIn={handleSignIn} />}
+      {authedUser === null && <SignIn SignIn={handleSignIn} SignUp={handleSignUp}/>}
       {authedUser !== null && <Dashboard />}
     </div>
   );

@@ -3,7 +3,7 @@ import { Card, Badge, Col, Container, Row, Image } from "react-bootstrap";
 import { connect } from "react-redux";
 import { formatUserData } from "../utils/helpers";
 import { useNavigate } from "react-router-dom";
-import { handleInitialData } from "../actions/share";
+// import { handleInitialData } from "../actions/share";
 
 function Leaderboard(props) {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ function Leaderboard(props) {
     if (authedUser === null) {
       return navigate("/");
     }
-    dispatch(handleInitialData(authedUser));
+    // dispatch(handleInitialData(authedUser));
   }, [authedUser, dispatch, navigate]);
 
   const totalUser = board === null ? 0 : board.length;

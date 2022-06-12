@@ -1,5 +1,6 @@
 import { saveQuestion, saveQuestionAnswer } from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading";
+import { updateUserQuestions, updateUserAnswers } from "./users";
 export const ANSWER_QUESTION = "ANSWER_QUESTION";
 export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_QUESTION = "ADD_QUESTION";
@@ -23,9 +24,11 @@ function answerQuestion(authedUser, id, answer) {
 export function handleAnswerQuestion(qId, answer, authedUserId) {
   return (dispatch) => {
     dispatch(showLoading());
-    dispatch(answerQuestion(authedUserId, qId, answer));
-
     return saveQuestionAnswer(qId, answer, authedUserId)
+      .then(() => {
+        dispatch(answerQuestion(authedUserId, qId, answer));
+        dispatch(updateUserAnswers(authedUserId, qId, answer));
+      })
       .catch((e) => {
         console.error("Error in handleAnswerQuestion: ", e);
         alert("There was an error while answering question. Try again!");
@@ -50,11 +53,14 @@ export function handleAddQuestion(optionOneText, optionTwoText) {
       optionOneText,
       optionTwoText,
     })
-      .then((question) => dispatch(addQuestion(question)))
-      .then(() => dispatch(hideLoading()))
+      .then((question) => {
+        dispatch(addQuestion(question));
+        dispatch(updateUserQuestions(authedUser.id, question.id));
+      })
       .catch((e) => {
         console.error("Error in handleAddQuestion: ", e);
         alert("There was an error while adding question. Try again!");
-      });
+      })
+      .then(() => dispatch(hideLoading()));
   };
 }

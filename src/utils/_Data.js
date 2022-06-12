@@ -174,16 +174,6 @@ function formatQuestion({ optionOneText, optionTwoText, author }) {
   };
 }
 
-function formatNewUser({ id, name, avatarURL }) {
-  return {
-    id,
-    name,
-    avatarURL,
-    answers: {},
-    questions: [],
-  };
-}
-
 export function _saveQuestion(question) {
   return new Promise((res, rej) => {
     const authedUser = question.author;
@@ -238,9 +228,19 @@ export function _saveQuestionAnswer({ authedUser, qid, answer }) {
   });
 }
 
+function formatNewUserObj({ id, name, avatarURL }) {
+  return {
+    id,
+    name,
+    avatarURL,
+    answers: {},
+    questions: [],
+  };
+}
+
 export function _saveUser(user) {
   return new Promise((res, rej) => {
-    const formatNewUser = formatNewUser(user);
+    const formatNewUser = formatNewUserObj(user);
 
     setTimeout(() => {
       users = {

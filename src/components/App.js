@@ -12,12 +12,10 @@ import Profile from "./Profile";
 import AddQuestion from "./AddQuestionPage";
 
 function App(props) {
-  const { authedUser, dispatch } = props;
+  const { dispatch } = props;
   useEffect(() => {
-    if (authedUser === null) {
-      dispatch(handleInitUserData());
-    } 
-  }, [authedUser, dispatch]);
+    dispatch(handleInitUserData());
+  }, [dispatch]);
 
   return (
     <Router>
@@ -39,10 +37,4 @@ function App(props) {
   );
 }
 
-function mapStateToProps({ authedUser }) {
-  return {
-    authedUser,
-  };
-}
-
-export default connect(mapStateToProps)(App);
+export default connect()(App);
