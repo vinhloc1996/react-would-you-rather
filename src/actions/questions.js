@@ -21,8 +21,7 @@ function answerQuestion(authedUser, id, answer) {
 }
 
 export function handleAnswerQuestion(qId, answer, authedUserId) {
-  return (dispatch, getState) => {
-    // const { authedUser } = getState();
+  return (dispatch) => {
     dispatch(showLoading());
     dispatch(answerQuestion(authedUserId, qId, answer));
 
@@ -46,17 +45,16 @@ export function handleAddQuestion(optionOneText, optionTwoText) {
   return (dispatch, getState) => {
     const { authedUser } = getState();
     dispatch(showLoading());
-
     return saveQuestion({
       author: authedUser.id,
       optionOneText,
       optionTwoText,
     })
+      .then((question) => dispatch(addQuestion(question)))
+      .then(() => dispatch(hideLoading()))
       .catch((e) => {
         console.error("Error in handleAddQuestion: ", e);
         alert("There was an error while adding question. Try again!");
-      })
-      .then((question) => dispatch(addQuestion(question)))
-      .then(() => dispatch(hideLoading()));
+      });
   };
 }

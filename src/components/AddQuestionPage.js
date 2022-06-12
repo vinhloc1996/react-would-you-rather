@@ -23,11 +23,11 @@ function AddQuestion(props) {
       e.stopPropagation();
       return;
     }
-
+    
     dispatch(handleAddQuestion(optionOneText, optionTwoText));
     changeOptionOneText("");
     changeOptionTwoText("");
-    return navigate("/");
+    navigate("/");
   };
 
   return (
