@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Button, Image, Card, Form } from "react-bootstrap";
+import { Button, Card, Form } from "react-bootstrap";
 import { connect } from "react-redux";
-import { formatQuestion } from "../utils/helpers";
-import LastSeen from "./LastSeen";
 import { handleAnswerQuestion } from "../actions/questions";
 import { useNavigate } from "react-router-dom";
 
@@ -15,12 +13,11 @@ function UnansweredQuestion(props) {
     return <p>This question doesn't exist</p>;
   }
 
-  const { name, avatarURL, timestamp, id, optionOneText, optionTwoText } =
-    question;
+  const { id, optionOneText, optionTwoText } = question;
 
-  const handleAnswers = (event, option) => {
-    event.preventDefault();
-    changeOption(option);
+  const handleAnswers = (e) => {
+    console.log(e.target.value);
+    changeOption(e.target.value);
   };
 
   const handleSubmitAnswer = (e) => {
@@ -30,61 +27,52 @@ function UnansweredQuestion(props) {
   };
 
   return (
-    <div>
-      <Card className="text-center">
-        <Card.Header>
-          <Image
-            src={avatarURL}
-            alt="Author Avatar"
-            width="40px"
-            height="40px"
+    <Card.Body>
+      <Card.Title>Would you rather ...</Card.Title>
+      <Form>
+        <Form.Check type="radio" isValid>
+          <Form.Check.Input
+            type="radio"
+            isValid
+            value="optionOne"
+            id={`optionOne-${id}`}
+            name={`question-${id}`}
+            onClick={handleAnswers}
+            defaultChecked
           />
-          {name} asked:
-        </Card.Header>
-        <Card.Body>
-          <Card.Title>Would you rather ...</Card.Title>
-          <Form>
-            <Form.Check
-              type="radio"
-              name={`question-${id}`}
-              onClick={(e) => handleAnswers(e, "optionOne")}
-              label={optionOneText}
-              defaultChecked={true}
-            />
-            <Form.Check
-              type="radio"
-              name={`question-${id}`}
-              onClick={(e) => handleAnswers(e, "optionTwo")}
-              label={optionTwoText}
-            />
-            <div className="d-grid gap-2">
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={(e) => handleSubmitAnswer()}
-              >
-                Submit Vote
-              </Button>
-            </div>
-          </Form>
-        </Card.Body>
-        <Card.Footer className="">
-          <LastSeen date={timestamp} />
-        </Card.Footer>
-      </Card>
-      <br />
-    </div>
+          <Form.Check.Label htmlFor={`optionOne-${id}`}>{optionOneText}</Form.Check.Label>
+        </Form.Check>
+
+        <Form.Check type="radio" isValid>
+          <Form.Check.Input
+            type="radio"
+            isValid
+            value="optionTwo"
+            id={`optionTwo-${id}`}
+            name={`question-${id}`}
+            onClick={handleAnswers}
+          />
+          <Form.Check.Label htmlFor={`optionTwo-${id}`}>{optionTwoText}</Form.Check.Label>
+        </Form.Check>
+        
+        <div className="d-grid gap-2">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={handleSubmitAnswer}
+          >
+            Submit Vote
+          </Button>
+        </div>
+      </Form>
+    </Card.Body>
   );
 }
 
-function mapStateToProps({ authedUser, questions, users, dispatch }, { id }) {
-  const question = questions[id];
+function mapStateToProps({ authedUser }, { question }) {
   return {
-    dispatch,
     authedUser,
-    question: question
-      ? formatQuestion(users[question.author], question, authedUser)
-      : null,
+    question: question,
   };
 }
 

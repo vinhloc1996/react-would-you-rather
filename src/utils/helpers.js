@@ -23,7 +23,8 @@ export function formatQuestion(authorUser, question, authedUser) {
     name,
     optionOneText: optionOne.text,
     optionTwoText: optionTwo.text,
-    answers,
+    optionOneVotes: optionOne.votes,
+    optionTwoVotes: optionTwo.votes,
     hasAnswered: answers.includes(authedUser),
     totalAnswer: answers.length,
     totalAnswer1: optionOne.votes.length,
@@ -32,15 +33,21 @@ export function formatQuestion(authorUser, question, authedUser) {
 }
 
 export function formatUserData(user, authedUser) {
-  const { uid, name, avatarURL, answers, questions } = user;
-
+  const { id, name, avatarURL, answers, questions } = user;
+  const answerArr = Object.keys(answers);
   return {
-    uid,
+    id,
     name,
     avatarURL,
-    answers: answers.length,
+    answers: answerArr.length,
     questions: questions.length,
-    total: answers.length + questions.length,
-    isAuthedUser: uid === authedUser
+    total: answerArr.length + questions.length,
+    isAuthedUser: id === authedUser
   }
+}
+
+export const QuestionViewMode = {
+  View: 'View',
+  Answer: 'Answer',
+  Result: 'Result'
 }

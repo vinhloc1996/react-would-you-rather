@@ -1,22 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { formatQuestion } from "../utils/helpers";
+import { useParams } from "react-router-dom";
+import Question from "./Question";
 
 function QuestionPage(props) {
-  const { question, id, authedUser } = props;
-  const {
-    hasAnswered,
-    optionOneText,
-    optionTwoText,
-    name,
-    avatarURL,
-    timestamp,
-    totalAnswer,
-    totalAnswer1,
-    totalAnswer2,
-  } = question;
+  const { id } = useParams();
 
-  if (question === null) {
+  if (id === null) {
     return (
       <div>
         <h3>Invalid question. Please go back and try another one!</h3>
@@ -24,19 +14,17 @@ function QuestionPage(props) {
     );
   }
 
-  return hasAnswered ? (<div>Answered</div>) : (<div>Unanswered</div>)
+  return (
+    <div className="container-sm container-sign-in">
+      <Question id={id} />
+    </div>
+  );
 }
 
-function mapStateToProps({ authedUser, questions, users }, { match }) {
-  const { id } = match.params;
-
+function mapStateToProps({ authedUser }) {
   return {
-    id,
     authedUser,
-    question: questions[id]
-      ? formatQuestion(users[questions[id].author], questions[id], authedUser)
-      : null,
   };
 }
 
-export default connect()(QuestionPage);
+export default connect(mapStateToProps)(QuestionPage);

@@ -1,18 +1,62 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Image, Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import { formatQuestion } from "../utils/helpers";
 import LastSeen from "./LastSeen";
+import { useNavigate } from "react-router-dom";
+import { QuestionViewMode } from "../utils/helpers";
+import UnansweredQuestion from "./UnansweredQuestion";
+import AnsweredQuestion from "./AnsweredQuestion";
 
 function Question(props) {
-  const { question } = props;
+  const { question, ViewMode } = props;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (question === null) {
+     return navigate("/notfound");
+    }
+  }, [question, navigate]);
 
   if (question === null) {
-    return <p>This question doesn't exist</p>;
+    return;
   }
 
-  const { name, avatarURL, timestamp, id, optionOneText, optionTwoText } =
-    question;
+  let {
+    name,
+    avatarURL,
+    timestamp,
+    id,
+    optionOneText,
+    optionTwoText,
+    hasAnswered,
+  } = question;
+
+  const renderBody = () => {
+    switch (ViewMode) {
+      case QuestionViewMode.View:
+        return (
+          <Card.Body>
+            <Card.Title>Would you rather ...</Card.Title>
+            <Card.Text>{`${optionOneText} OR ${optionTwoText}`}</Card.Text>
+            <div className="d-grid gap-2">
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => navigate(`/question/${id}`)}
+              >
+                View Poll
+              </Button>
+            </div>
+          </Card.Body>
+        );
+      default:
+        if (!hasAnswered) {
+          return <UnansweredQuestion question={question} />;
+        } else {
+          return <AnsweredQuestion question={question} />;
+        }
+    }
+  };
 
   return (
     <div>
@@ -26,15 +70,7 @@ function Question(props) {
           />
           {name} asked:
         </Card.Header>
-        <Card.Body>
-          <Card.Title>Would you rather ...</Card.Title>
-          <Card.Text>{`${optionOneText} OR ${optionTwoText}`}</Card.Text>
-          <div className="d-grid gap-2">
-            <Button variant="primary" size="lg">
-              View Poll
-            </Button>
-          </div>
-        </Card.Body>
+        {renderBody()}
         <Card.Footer className="">
           <LastSeen date={timestamp} />
         </Card.Footer>
@@ -49,7 +85,7 @@ function mapStateToProps({ authedUser, questions, users }, { id }) {
   return {
     authedUser,
     question: question
-      ? formatQuestion(users[question.author], question, authedUser)
+      ? formatQuestion(users[question.author], question, authedUser.id)
       : null,
   };
 }

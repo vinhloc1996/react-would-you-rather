@@ -1,56 +1,65 @@
 import React from "react";
-import { Button, Image, Card } from "react-bootstrap";
+import { Card, Alert, Badge, ProgressBar } from "react-bootstrap";
 import { connect } from "react-redux";
-import { formatQuestion } from "../utils/helpers";
-import LastSeen from "./LastSeen";
 
 function answeredQuestion(props) {
-  const { question } = props;
+  const { question, authedUser } = props;
 
   if (question === null) {
     return <p>This question doesn't exist</p>;
   }
 
-  const { name, avatarURL, timestamp, id, optionOneText, optionTwoText } =
-    question;
+  const {
+    optionOneText,
+    optionTwoText,
+    totalAnswer,
+    totalAnswer1,
+    totalAnswer2,
+    optionOneVotes,
+  } = question;
+
+  const percentage1 = Math.round((totalAnswer1 / totalAnswer) * 100);
+  const percentage2 = 100 - percentage1;
+  const yourVote = optionOneVotes.includes(authedUser.id)
+    ? "optionOne"
+    : "optionTwo";
 
   return (
-    <div>
-      <Card className="text-center">
-        <Card.Header>
-          <Image
-            src={avatarURL}
-            alt="Author Avatar"
-            width="40px"
-            height="40px"
-          />
-          {name} asked:
-        </Card.Header>
-        <Card.Body>
-          <Card.Title>Would you rather ...</Card.Title>
-          <Card.Text>{`${optionOneText} OR ${optionTwoText}`}</Card.Text>
-          <div className="d-grid gap-2">
-            <Button variant="primary" size="lg">
-              View Poll
-            </Button>
-          </div>
-        </Card.Body>
-        <Card.Footer className="">
-          <LastSeen date={timestamp} />
-        </Card.Footer>
-      </Card>
-      <br />
-    </div>
+    <Card.Body>
+      <Card.Title>Results:</Card.Title>
+      <Alert variant={yourVote === "optionOne" ? "success" : "light"}>
+        <Alert.Heading>
+          {`Would you rather ${optionOneText}?`}
+          {yourVote === "optionOne" ? (
+            <Badge pill bg="primary">
+              Your vote
+            </Badge>
+          ) : null}
+        </Alert.Heading>
+        <ProgressBar now={percentage1} animated label={`${percentage1}%`} />
+        <p>{`${totalAnswer1} out of ${totalAnswer} votes`}</p>
+      </Alert>
+      <hr />
+      <Alert variant={yourVote === "optionTwo" ? "success" : "light"}>
+        <Alert.Heading>
+          {`Would you rather ${optionTwoText}?`} {"   "}
+          {yourVote === "optionTwo" ? (
+            <Badge pill bg="primary">
+              Your vote
+            </Badge>
+          ) : null}
+        </Alert.Heading>
+        <ProgressBar now={percentage2} animated label={`${percentage2}%`} />
+        <p>{`${totalAnswer2} out of ${totalAnswer} votes`}</p>
+      </Alert>
+    </Card.Body>
   );
 }
 
-function mapStateToProps({ authedUser, questions, users }, { id }) {
-  const question = questions[id];
+function mapStateToProps({ authedUser }, { question }) {
   return {
     authedUser,
-    question: question
-      ? formatQuestion(users[question.author], question, authedUser)
-      : null,
+    question,
   };
 }
 
