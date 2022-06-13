@@ -1,6 +1,8 @@
 # Would You Rather ...
 
-React application to manage the votes and ask other people
+React application to manage the votes and ask other people. 
+- This application was built on the latest `React` version `18.1.0` and used latest version of other packages/dependencies as well (`react-router-dom` `6.3.0`, `@reduxjs/toolkit` `1.8.2`, .etc...). The entire application was bootstrapped by the `create-react-app 5.0.1`
+- `react-bootstrap / bootstrap` was used to design the website interface (I'm not a designer. Don't need to judge my design!)
 
 ## Install packages for the project
 
