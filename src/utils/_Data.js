@@ -245,7 +245,7 @@ export function _saveUser(user) {
     setTimeout(() => {
       users = {
         ...users,
-        [users.id]: formatNewUser,
+        [formatNewUser.id]: formatNewUser,
       };
 
       res(formatNewUser);
