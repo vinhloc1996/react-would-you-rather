@@ -1,70 +1,59 @@
-# Getting Started with Create React App
+# Would You Rather ...
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React application to manage the votes and ask other people
 
-## Available Scripts
+## Install packages for the project
 
-In the project directory, you can run:
+In the project directory, run:
 
-### `npm start`
+### `npm install`
+
+## Run project
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### `npm start` OR `yarn start`
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Project structure
+```bash
+├── README.md - # Brief introduce about the project and instructions to install/run the project
+├── package.json # npm package manager file
+├── public # Stores icon/images for project startup
+│   └── avatars # Default Avatars for users
+│       └── index.html # Default template. DO NOT MODIFY!
+└── src
+    ├── components # React components folder
+    │   ├── AddQuestionPage.js # Page for adding new Question
+    │   ├── AnsweredQuestion.js # Component displays all the answered questions for a user
+    │   ├── UnansweredQuestion.js # Component displays all the unanswered questions for a user
+    │   ├── App.js # Root component for the react application
+    │   ├── Dashboard.js # Component displays both tabs for answered and unanswered questions for a user
+    │   ├── HomePage.js # Page for rendering the first page when user entering the application
+    │   ├── LastSeen.js # Component handles the time when the questions've been posted
+    │   ├── LeaderboardPage.js # Page for showing the leaderboard of all users
+    │   ├── Nav.js # Navigate component displays a navigation bar, allow user to navigate to different pages
+    │   ├── NotFoundPage.js # Page to handle the unwanted request
+    │   ├── Question.js # Question component to handle questions logic and display the correct type of question
+    │   ├── QuestionPage.js # Page to display a specific question when user clicked on
+    │   └── SignIn.js # Component displays and handles Sign In/Sign Up logics
+    ├── actions # Redux actions folder
+    │   └── authedUser.js # Stores action types for authedUser (SignIn)
+    │   └── questions.js # Stores action types for questions
+    │   └── share.js # Stores action types for general uses (init api call)
+    │   └── users.js # Stores action types for users 
+    ├── middlewares # Redux middlewares folder
+    │   └── logger.js # Define middleware to log everything whenever a store is being dispatched
+    │   └── index.js # Export middleware for the index.js uses
+    ├── reducers # Redux reducers folder
+    │   └── authedUser.js # Stores reducer for authedUser
+    │   └── questions.js # Stores reducer for questions
+    │   └── index.js # Export all reducers need to be consumed by Redux
+    │   └── users.js # Stores reducer for users 
+    ├── utils # Utilities folder
+    │   └── _Data.js # Fake DB to store user/question data for application. Contains functions to fetch/save data.
+    │   └── api.js # Encapsulate and export the API for application to connect to fake DB
+    │   └── helpers.js # Contains all helpers method for entire application
+    ├── index.css # Global styles for the application
+    └── index.js # Global config for the react application. Setup store for Redux
+```

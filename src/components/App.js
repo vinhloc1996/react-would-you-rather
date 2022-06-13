@@ -8,7 +8,6 @@ import Home from "./HomePage";
 import QuestionPage from "./QuestionPage";
 import NotFound from "./NotFoundPage";
 import Leaderboard from "./LeaderboardPage";
-import Profile from "./Profile";
 import AddQuestion from "./AddQuestionPage";
 
 function App(props) {
@@ -27,8 +26,6 @@ function App(props) {
           <Route path="/question/:id" element={<QuestionPage />} />
           <Route path="/add" element={<AddQuestion />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
           <Route path="/notfound" element={<NotFound />} />
         </Routes>
