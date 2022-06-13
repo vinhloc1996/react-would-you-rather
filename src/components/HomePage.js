@@ -4,9 +4,19 @@ import SignIn from "./SignIn";
 import { handleInitialData } from "../actions/share";
 import { handleAddUser } from "../actions/users";
 import Dashboard from "./Dashboard";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function Home(props) {
   const { users, authedUser } = props;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (authedUser !== null) {
+      navigate(location.state?.path || "/")
+    }
+  }, [authedUser, location.state?.path, navigate])
 
   const handleSignIn = (id) => {
     let user = Object.values(users).find((u) => u.id === id);
@@ -16,23 +26,29 @@ function Home(props) {
       alert("Authentication failed! Try again");
     }
   };
-  
+
   const handleSignUp = (id, name, avatarURL) => {
-    props.dispatch(handleAddUser({id, name, avatarURL}));
+    props.dispatch(handleAddUser({ id, name, avatarURL }));
   };
 
   return (
     <div>
-      {authedUser === null && <SignIn SignIn={handleSignIn} SignUp={handleSignUp}/>}
+      {authedUser === null && (
+        <SignIn
+          SignIn={handleSignIn}
+          SignUp={handleSignUp}
+          state={{ path: location.pathname }}
+        />
+      )}
       {authedUser !== null && <Dashboard />}
     </div>
   );
 }
 
-function mapStateToProps({ authedUser, users, questions }) {
+function mapStateToProps({ authedUser, users }) {
   return {
     authedUser,
-    users
+    users,
   };
 }
 

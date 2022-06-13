@@ -59,3 +59,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
     ├── index.css # Global styles for the application
     └── index.js # Global config for the react application. Setup store for Redux
 ```
+
+## Authors
+
+**Loc Nguyen** 
+
+React project - Submission for Udacity React Course (nd019)

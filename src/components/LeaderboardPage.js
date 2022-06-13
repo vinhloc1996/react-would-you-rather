@@ -11,7 +11,7 @@ function Leaderboard(props) {
 
   useEffect(() => {
     if (authedUser === null) {
-      return navigate("/");
+      return navigate("/", {state: {path: '/leaderboard'}});
     }
     // dispatch(handleInitialData(authedUser));
   }, [authedUser, dispatch, navigate]);
@@ -69,7 +69,7 @@ function mapStateToProps({ authedUser, users, loadingBar }) {
       authedUser !== null
         ? Object.values(users)
             .map((u) => formatUserData(u, authedUser.id))
-            .sort((a, b) => b.answers - a.answers)
+            .sort((a, b) => b.total - a.total)
         : null,
   };
 }

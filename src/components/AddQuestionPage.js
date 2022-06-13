@@ -12,18 +12,22 @@ function AddQuestion(props) {
 
   useEffect(() => {
     if (authedUser === null) {
-      return navigate("/");
+      return navigate("/", { state: { path: `/add` } });
     }
   }, [authedUser, navigate]);
 
   const handleSubmitQuestion = (e) => {
     const form = e.currentTarget;
     e.preventDefault();
-    if (form.checkValidity() === false) {
+    if (
+      form.checkValidity() === false ||
+      optionOneText === "" ||
+      optionTwoText === ""
+    ) {
       e.stopPropagation();
       return;
     }
-    
+
     dispatch(handleAddQuestion(optionOneText, optionTwoText));
     changeOptionOneText("");
     changeOptionTwoText("");

@@ -42,7 +42,7 @@ function Question(props) {
               <Button
                 variant="primary"
                 size="lg"
-                onClick={() => navigate(`/question/${id}`)}
+                onClick={() => navigate(`/questions/${id}`)}
               >
                 View Poll
               </Button>
